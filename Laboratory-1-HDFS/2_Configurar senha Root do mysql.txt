@@ -1,0 +1,38 @@
+Terminal digitar
+mysql -u root -p 
+Enter password:
+Erro Access denied, quando instala pacotes é comum não definir a senha
+
+# Procedimento para configurar/alterar a senha do root
+
+# Para o serviço do mysql
+sudo systemctl stop mysqld
+
+#Verificar se o serviço esta rodando
+sudo systemctl status mysqld
+
+# Inicializa mysql em modo de segurança
+sudo mysqld --skip-grant-tables --user=mysql &
+
+# Abre o shell
+mysql
+
+# Reset dos privilégios
+FLUSH PRIVILEGES;
+
+# Altera a senha do root
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'adminhadoop';
+Erro: Your password does not satisfy the current policy requirements
+
+# Verifica as regras de senha
+SHOW VARIABLES LIKE 'validate_password%';
+
+# Ajusta a senha
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'Adminhadoop@1';
+
+# Reinicia a máquina virtual ou serviço do mysql
+sudo systemctl start mysqld (tem um bug é melhor dar o restart da maquina)
+
+# Acessa o MySQL
+mysql -u root -p
+

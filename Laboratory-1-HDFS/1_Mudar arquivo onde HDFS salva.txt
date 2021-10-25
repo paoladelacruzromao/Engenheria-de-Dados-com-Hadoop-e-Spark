@@ -1,0 +1,34 @@
+#Mudar os directorios tmp/hadoop-hadoop para um novo directorio /opt/hadoop/dfs
+
+# Cria os diretórios abaixo
+
+mkdir /opt/hadoop/dfs
+mkdir /opt/hadoop/dfs/data (guarda os dados)
+mkdir /opt/hadoop/dfs/namespace_logs (guarda os metadados)
+
+
+# Editar o arquivo $HADOOP_HOME/etc/hadoop/hdfs-site.xml e adicionar as linhas:
+
+    <property>
+      <name>dfs.namenode.name.dir</name>
+      <value>/opt/hadoop/dfs/namespace_logs</value>
+    </property>
+    <property>
+      <name>dfs.datanode.data.dir</name>
+      <value>/opt/hadoop/dfs/data</value>
+    </property>
+
+#Limpar o directrio tmp
+cd /tmp/
+sudo rm -rf *
+ls
+cd ~
+
+#Formatear o namenode para setear a configuração do arquivo tem que aparecer Suceesfully formated
+hdfs namenode -format
+
+start-dfs.sh (Datanode, Namenode, SecondaryNamenode)
+jps
+start-yarn.sh (Resourcemanager, NodeManager)
+jps
+

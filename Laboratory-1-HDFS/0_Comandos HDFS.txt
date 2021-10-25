@@ -1,0 +1,98 @@
+
+start-dfs.sh
+start-yarn.sh
+jps
+
+(Verifica os logs em caso o serviço não subio)
+hdfs dfs -ls /
+cd /opt/hadoop/logs/
+ls -la
+hadoop-hadoop-datanode-dataserver.log
+hadoop-hadoop-namenode-dataserver.log
+hadoop-hadoop-secondarynamenode-dataserver.log
+
+(Em caso de problemas parar os serviços)
+stop-dfs.sh
+stop-yarn.sh
+pwd
+
+(Verifique que esta no directorio /opt/hadoop/logs)
+rm -rf * (cuidado com o comando apaga todo)
+ls -la (verifica que foi td apagado)
+
+(Inicializar os arquivos de log)
+start-dfs.sh
+start-yarn.sh
+jps
+
+gedit hadoop-hadoop-datanode-dataserver.log
+
+(Em caso de ver um problema por ser um ambiente de teste pode formatar o HDFS)
+hdfs namenode -format
+Va perguntar se quer sobre escrever da Yes
+
+(Onde esta o conteudo padrão do hdfs, o engenheiro de Dados tem não pode permitir eliminar os dados de tmp)
+cd /tmp/
+ls -la
+hadoop-hadoop
+
+(Criar uma pasta no hdfs)
+hdfs dfs -mkdir /user
+
+(Visualizar no HDFS)
+hdfs dfs -ls /
+
+(Criar um directorio Bigdata dentro user)
+hdfs dfs -mkdir /user/bigdata
+hdfs dfs -ls /user
+
+(Copiar arquivo de teste para o HDFS)
+mkdir teste
+cd teste/
+pwd
+	/home/hadoop/teste
+gedit dados.txt
+hdfs dfs -put dados.txt /user/bigdata
+hdfs dfs -ls /user/bigdata
+
+(Renomear o arquivo local dados.txt)
+mv dados.txt dados2.txt
+
+(Pegar o arquivo do hdfs para maquina local)
+hdfs dfs -get /user/bigdata/dados.txt
+ls -la
+
+(Applications Frirefox digita localhost:50070, nas versoes novas é localhost:9870)
+localhost:9000 (endereço do hdfs)
+
+Editlog é o arquivos edit,fsimage onde o datanode grava os metadados, são arquivos binarios
+
+Datanode manda o relatorio de blocos para o Namenode
+Utilities->Browse directory /user/bigdata
+
+(Grouplens.org tem avaliações de filme)
+datasets--> Recommended for new search baixe ml-20m.zip
+
+Ele vai ficar no directorio Downloads
+cd Downloads/ 
+
+Mover o arquivo para teste
+mv ml-20m.zip ../teste/
+cd .. (back to teste file)
+
+(Copiar para HDFS)
+hdfs dfs -put ml-20m.zip /user/bigdata
+hdfs dfs -ls /
+
+(Relatorio completo do ambiente, comando de administrador)
+hdfs dfsadmin -report
+
+(Help)
+hdfs dfs -help
+
+
+
+
+
+
+

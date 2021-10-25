@@ -1,0 +1,73 @@
+# Acessa o MySQL
+mysql -u root -p
+
+#Criar banco de dados no Mysql
+create database testedb;
+use testedb;
+create table empregados(username varchar(30), password varchar(30));
+insert into empregados value('Alan Turing', 'adminhadoop');
+select * from empregados;
+
+#Verificar variaveis de ambiente
+cat .bashrc (verificar que no path do sqoop , ele precisa verificar onde esta o apache hadoop)
+
+#Para conectar com o mysql . o sqoop precisa do conector jdbc mysql 
+No google digita mysql jdbc connector download
+https://dev.mysql.com/downloads/connector/j/
+Connector/j 8.0.16
+selecciona Platform Independent
+Click no zip e fazer download
+
+(Terminal)
+cd Downloads/
+ls
+unzip mysql-connector-java-8.0.16.zip
+cd mysql-connector-java-8.0.16
+ls
+(Nos interesa é o arquivo mysql-connector-java-8.0.16.jar esse o conector que precisa copiar no directorio lib do sqoop)
+cp mysql-connector-java-8.0.16.jar /opt/sqoop/lib
+cd /opt/sqoop/lib
+
+#Verificar version do sqoop
+sqoop version
+1.4.7
+
+# Comandos Sqoop para listar bancos de dados no MySQL (testando coneção)
+sqoop list-databases --connect jdbc:mysql://localhost:3306/ --username root -P
+Erro : Could not find or load main class org.apache.hadoop.hbase.util.GetJavaProperty
+NoclassDefFoundError: /org/apache/commons/lang/Stringutils
+
+(O erro ocurre porque esta faltando uma lib)
+github.com/dsacademybr -->Repositorios --> Libs--> commone lang-2-6-bin.zip
+Download copy path link location
+(terminal)
+cd Downloads/
+wget path link location 
+ls -la
+unzip commone lang-2-6-bin.zip
+cd commone lang-2-6-bin
+ls 
+cp commons-lang-2.6.jar /opt/sqoop/lib
+cd ~
+sqoop list-databases --connect jdbc:mysql://localhost:3306/ --username root -P
+
+Error manager.CatalogQueryManager:Failed to list databases
+The server time zone value 'PDT' is unrecognized
+sqoop list-databases --connect jdbc:mysql://localhost:3306/?serverTimezone=UTC --username root -P
+
+# Comando Sqoop para importar dados do MySQL para o HDFS
+sqoop import --connect jdbc:mysql://localhost:3306/testedb?serverTimezone=UTC --username root --password Adminhadoop@1 --table empregados --m 1
+
+Erro connection refused porque hdfs não esta inicializado
+start-dfs.sh
+start-yarn.sh
+jps
+
+Ele vai gerar um job mapreduce
+hdfs dfs -ls /user/hadoop/empregados
+
+#Sqoop help
+sqoop help
+
+sqoop 1.4.7
+apache hadoop 3.2
