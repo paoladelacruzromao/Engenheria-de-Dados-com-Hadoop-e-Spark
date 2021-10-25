@@ -5,7 +5,7 @@ Como vimos o MapReduce é um modelo de programação que trabalhar de forma dist
 Em nossa prática temos um arquivo chamado ml-25m.zip que contém o registro das avaliações de vários filmes. O nosso objetivo é contar o total avaliações cada estrella recebeu. A estrutura do arquivo é: userID, movieID, raiting, timestamp.
 
 Por exemplo,
-Abra sua máquina Cloudera e acesse, no navegador da máquina, os dados do ml-25m.zip no seguinte link:
+Abra sua máquina Cloudera e acesse, no navegador da máquina, os dados do ml-25m.zip no seguinte link (pegar o arquivo mlk-100.zip):
 https://files.grouplens.org/datasets/movielens/ml-25m.zip
 
 1.  No terminal cria a pasta Datasets e salva o arquivo .zip
