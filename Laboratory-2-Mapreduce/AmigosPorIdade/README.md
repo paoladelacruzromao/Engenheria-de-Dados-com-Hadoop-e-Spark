@@ -6,21 +6,28 @@ Em nossos datasets temos um arquivo chamado amigos_facebook.csv que contém o re
 
 ## Por exemplo,
 Abra sua máquina Cloudera e acesse, no navegador da máquina, os dados do amigos_facebook.csv. imagina que a gente tem 2 registros :
+```sh
 0, Eduardo, 33, 385
 1, Paola, 33, 2
-
+```
 a. Aplicamos o Mapeamento
 idade, número de amigos
+```sh
 33, 385
 33, 2
+```
 
 b. Shuffle sort
+```sh
 33, 385 + 2
+```
 
 c.Redução
+```sh
 33, (385 + 2)/2
+```
 
-# Terminal
+## Processo
 
 1.  No terminal cria a pasta Datasets e salva o arquivo .csv
 ```sh
@@ -57,7 +64,7 @@ Depois temos a palavra reservada **yield**, que permite fazer uma iteração em 
 
 No **reducer**, vamos receber a idade e o número de amigos. E novamente vamos chamar o yield para sumar o numero de amigos por idade e calcular a media.
 Finalmente executo minha classe.
-
+```sh
   from mrjob.job import MRJob
 
   class MRAmigosPorIdade(MRJob):
@@ -76,9 +83,10 @@ Finalmente executo minha classe.
           yield idade, total / numElementos
 
 
-  if __name__ == '__main__':
-      MRAmigosPorIdade.run()
-      
+    if __name__ == '__main__':
+        MRAmigosPorIdade.run()
+```
+
 7. Em caso de querer remover o arquivo anterior do HDFS pode executar
 ```sh
 hdfs dfs -rm /mapred/u.data
