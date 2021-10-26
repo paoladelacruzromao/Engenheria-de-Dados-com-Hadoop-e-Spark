@@ -1,4 +1,4 @@
-# Laboratory-2-Mapreduce-Amigos por Idade
+# Laboratory-2-Mapreduce-Media de Amigos por Idade
 ## Usando MapReduce em Grandes Volumes de Dados
 Como vimos o MapReduce é um modelo de programação que trabalhar de forma distribuída baseado em linguagem funcional e fornece duas operações (funções) que devem ser definidas pelo desenvolvedor: Map() e Reduce().O objetivo desse tutorial é praticar um pouco do MapReduce com a linguagem Python.
 
