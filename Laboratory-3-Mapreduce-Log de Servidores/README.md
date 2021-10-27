@@ -1,14 +1,13 @@
 # Laboratory-3-Mapreduce - Analisando Logs de Servidores
 ## Usando MapReduce em Grandes Volumes de Dados
-Como vimos o MapReduce é um modelo de programação que trabalhar de forma distribuída baseado em linguagem funcional e fornece duas operações (funções) que devem ser definidas pelo desenvolvedor: Map() e Reduce().O objetivo desse tutorial é praticar um pouco do MapReduce com a linguagem Python.
+Como vimos o MapReduce é um modelo de programação que trabalhar de forma distribuída baseado em linguagem funcional e fornece duas operações (funções) que devem ser definidas pelo desenvolvedor: Map() e Reduce().O objetivo desse tutorial é praticar um pouco do MapReduce com a linguagem Python usando um arquivo log.
 
-Em nossa prática temos um arquivo chamado web_server.log.zip que contém o logs de registro de servidores. O nosso objetivo é analisar o log des servidores.
- A estrutura do arquivo é: userID, movieID, raiting, timestamp.
+Em nossa prática temos um arquivo chamado web_server.log.zip que contém o log de registro de servidores. O nosso objetivo é analisar o log dos servidores e contar quantas vezes um endereço ip aparece no arquivo. 
 
 Por exemplo,
 Abra sua máquina Cloudera e acesse, no navegador da máquina, os dados do web_server.log.zip :
 
-1.  No terminal cria a pasta Datasets e Analytics. Para salvar o arquivo o arquivo .zip, para isso o usuario precisa estar como root.
+1.  No terminal cria a pasta Datasets e Analytics. Para salvar o arquivo o arquivo .zip, para isso o usuário precisa estar como root.
 ```sh
 mkdir Datasets
 mkdir Analytics
@@ -17,9 +16,9 @@ su
 [ingressa o password cloudera]
 
 ```
-Agora você esta no directorio como root
+Agora você está no diretório como root
 
-2.  Ingressa no directorio compartilhado entre sua maquina e a maquina virtual para copiar os dados.
+2.  Ingressa no diretório compartilhado entre sua maquina e a maquina virtual para copiar os dados.
 ```sh
 cd /media/sf_Cap05
 cd Datasets
@@ -30,95 +29,120 @@ cd Datasets
 cp web_server.log.zip /home/cloudera/Datasets/
 ```
 
-4. Copiar os arquivos de Analytics para /home/cloudera/Analytics/ , a gente esta com dois arquivos, porque agora vamos usar o Hadoop streaming e não MRJob. Feito isso vamos executar exit para sair do usuario root. 
+4. Copiar os arquivos de Analytics para /home/cloudera/Analytics/ , a gente esta com dois arquivos, porque agora vamos usar o Hadoop streaming e não MRJob. Feito isso vamos executar exit para sair do usuário root. 
 ```sh
 cp mapper.py reducer.py /home/cloudera/Analytics/
 exit
 ```
-5.  Como a gente fez a copia com o usuario root precisamos mudar a propiedade deles para o usuario hadoop
+5.  Como a gente fez a cópia com o usuário root precisamos mudar a propriedade deles para o usuário cloudera
 ```sh
 cd /home/cloudera/Datasets
 ls -la
 ```
+![image](https://user-images.githubusercontent.com/87387315/139140298-0813543b-13b4-473d-b7d9-673472f126d2.png)
+6.  Vamos mudar o usuário root, saímos do diretório Datasets. Com o comando "chown", mudamos o proprietário de maneira recursiva -R, para o usuário cloudera do grupo cloudera do diretório Datasets e Analytics.
+```sh
+cd ..
+sudo chown -R cloudera:cloudera /Datasets
+sudo chown -R cloudera:cloudera /Analytics
+```
+![image](https://user-images.githubusercontent.com/87387315/139141159-0be55ffe-c868-4100-bd9d-cdec77400709.png)
 
-5.  No terminal cria a pasta no HDFS mapred 
+7.  No diretório Datasets vamos descompactar o arquivo
+```sh
+unzip web_server.log.zip
+ls -la
+```
+
+8.  No terminal cria a pasta no HDFS mapred 
 ```sh
 hdfs dfs -mkdir mapred
 ```
 
-6. Vamos salvar os arquivo u.data pasta mapred do HDFS
+9. Vamos salvar o arquivo web_server.log pasta mapred do HDFS
 ```sh
-hdfs dfs -put u.data /mapred
+hdfs dfs -put web_server.log /mapred
 ```
-
-7. Listando o arquivo para verificar sé esta no HDFS
+10. Vamos listar o arquivo para verificar sé esta no HDFS
 ```sh
 hdfs dfs -ls /mapred
 ```
 
-8. Vamos abrir do directorio Analytics AvaliaFilme.py, podemos observar que estamos usando o MRJob do pacote mrjob.job, esse pacote nos permite criar um programa em python para executar o mapreduce.Depois foi criada a classe MRAvaliaFilme para instanciar o MRJob, para depois criar dois funciones o mapper e reducer.O MRJob é um atalho do hadoop streaming
+11. Vamos abrir do diretório Analytics mapper.py, podemos observar 
 ```sh
-subl AvaliaFilme.py
+gedit mapper.py
 ```
 
-No **mapper** estamos pegando todas as colunas e separando pelo caracter tab("/t") é coloco em cada variavel: userID, movieID, raiting, timestamp.
-Depois temos a palavra reservada **yield**, que permite fazer uma iteração em uma sequencia de valores, sem precisar gravar a sequencia na memoria para no sobrecargar o cluster, e quero retornar o raiting com 1.
+No **mapper** estamos pegando todas a linha do log e separando pelo espaço (" ") é coloco o objeto data, verifico que o len(data) seja igual a 10 e guardo cada valor em cada variável: ip_address, identity, username, datetime, timezone, method, path, proto, status, size = data
 
-No **reducer**, vamos receber o raiting e as sequencias. E novamente vamos chmar o yield para sumar o numero de ocorrencia por cada raiting(estrellas classificadas).
-Finalmente executo minha classe.
+```sh
+   import sys
 
-      from mrjob.job import MRJob
+      for line in sys.stdin:
+          data = line.strip().split(" ")
+          if len(data) == 10:
+              ip_address, identity, username, datetime, timezone, method, path, proto, status, size = data
+              print ip_address
 
-      class MRAvaliaFilme(MRJob):
-          def mapper(self, key, line):
-              (userID, movieID, rating, timestamp) = line.split('\t')
-              yield rating, 1
+```
 
-          def reducer(self, rating, occurences):
-              yield rating, sum(occurences)
+No **reducer**, vamos inicializar as variáveis current_ip_address com None e current_ip_address_count com 0. Crio um loop for para pegar cada linha que vai receber como entrada. Depois vamos verificar se o comprimento da linha é igual a 1 então posso estar com uma linha invalida e dou um continue. Verifica se existe current_ip_address e ele não é igual a new_ip_address então imprimo em tela o current_ip_address e a quantidade de vezes que aparece, e limpo o contador do current_ip_address_count = 0. Em caso contrário vou associar current_ip_address com new_ip_address, e vou incrementar o contador current_ip_address_count em 1. Finalmente sé o endereço ip fora diferente de None vou formatar a saída e imprimir na tela. O objetivo é contar quantas vezes cada endereço ip aparece em nosso arquivo log.
 
-      if __name__ == '__main__':
-          MRAvaliaFilme.run()
+```sh
+#!/usr/bin/env python
 
+import sys
 
-  #### Fase 1 – Mapeamento
-  A palavra reservada yield define qual das colunas será a chave (nesse caso a coluna rating, pois queremos saber o total de filmes em cada rating, que vai de 1 a 5). Cada    rating é mapeado e identificado com o valor 1, registrando a ocorrência do rating. Esse código é definido pelo Cientista de Dados.
+current_ip_address = None
+current_ip_address_count = 0
+
+for line in sys.stdin:
+    new_ip_address = line.strip().split()
+    if len(new_ip_address) != 1:
+        continue
+
+    if current_ip_address and current_ip_address != new_ip_address:
+        print "{0}\t{1}".format(current_ip_address, current_ip_address_count)
+        current_ip_address_count = 0
+
+    current_ip_address = new_ip_address
+    current_ip_address_count += 1
+
+if current_ip_address != None:
+    print "{0}\t{1}".format(current_ip_address, current_ip_address_count)
+ ```     
   
-    ![image](https://user-images.githubusercontent.com/87387315/138766479-ba6e4bdc-42c2-4584-bae7-45f422a27a78.png)
-
-  #### Fase 2 – Shuffle e Sort
-  Essa fase é processada automaticamente pelo framework MapReduce, que então agrupa os ratings e identifica quantas ocorrências cada rating obteve ao longo do arquivo.
-  
-  ![image](https://user-images.githubusercontent.com/87387315/138766609-2c38571b-0e20-4e70-979d-0d3c435dd832.png)
-  
-  #### Fase 3 – Redução
-  Também definida pelo Cientista de Dados, esta fase aplica o cálculo matemático (no caso soma, com a função sum()) e retorna o resultado: total de filmes com rating 1, total de filmes com rating 2, etc....
-  ![image](https://user-images.githubusercontent.com/87387315/138766757-1fc75da9-b7a1-4425-98b6-d6a398a518f7.png)
-
-9. Executar o arquivo python
+12. Executar o arquivo python dentro do diretório Analytics precisamos do hadoop jar, definindo que é o mapper assim como o reducer.
 ```sh
-python AvaliaFilme.py hdfs:///mapred/u.data -r hadoop
+hadoop jar /usr/lib/hadoop-0.20-mapreduce/contrib/streaming/hadoop-streaming-2.6.0-mr1-cdh5.13.0.jar -mapper mapper.py -reducer reducer.py -files mapper.py, reducer.py -input /mapred/web_server.log -output /saida
 ```
-
-(*) Em caso de falhas verificar os errors PipeMapRed.waitOutputThreads(), No configs found falling back on auto-configuration.O MRJob não achou o interpretador python do Anaconda. Para corregir esse erro precisamos criar um arquivo de configuração em **/home/hadoop** para o MRjob
-Terminal
+Em caso de erro de não reconhecer files podemos mudar para:
 ```sh
-gedit .mrjob.conf
+hadoop jar /usr/lib/hadoop-0.20-mapreduce/contrib/streaming/hadoop-streaming-2.6.0-mr1-cdh5.13.0.jar -mapper mapper.py -reducer reducer.py -file mapper.py -file reducer.py -input /mapred/web_server.log -output /saida
 ```
+Em caso de PipeMapRed.waitOutputThreads() erro, significa que não estamos encontrando o interpretador da linguagem python. Para isso vamos verificar onde esta o interpretador da linguagem com o comando:
 ```sh
- runners:
-  hadoop:
-   python_bin: /home/hadoop/anaconda3/python
- ```
- Salvar o arquivo
- 
- Terminal executar novamente
- ```sh
- python AvaliaFilme.py hdfs:///mapred/u.data -r hadoop
+which python
 ```
-![image](https://user-images.githubusercontent.com/87387315/138778944-560b0dd3-5fb6-439f-9421-6993d9664636.png)
+Vai retornar /usr/bin/python. Isso significa que tanto no reducer como no mapper devemos indicar onde esta o interpretador: #!/usr/bin/env python. Para corrigir o problema devemos incluir o path do interpretador no mapper.py
 
+```sh
+  #!/usr/bin/env python
+   import sys
 
+      for line in sys.stdin:
+          data = line.strip().split(" ")
+          if len(data) == 10:
+              ip_address, identity, username, datetime, timezone, method, path, proto, status, size = data
+              print ip_address
 
-
-# Laboratory-2-Mapreduce
+```
+Voltamos a executar:
+```sh
+hadoop jar /usr/lib/hadoop-0.20-mapreduce/contrib/streaming/hadoop-streaming-2.6.0-mr1-cdh5.13.0.jar -mapper mapper.py -reducer reducer.py -file mapper.py -file reducer.py -input /mapred/web_server.log -output /saida2
+```
+Verificando o resultado. Vamos encontrar dois arquivos o primeiro que indica que o job foi executado com sucesso e o outro o resultado.
+```sh
+hdfs dfs -ls /saida2
+hdfs dfs -cat /saida2/part-00000
+```
