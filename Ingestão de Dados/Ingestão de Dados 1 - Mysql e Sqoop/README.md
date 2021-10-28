@@ -5,19 +5,21 @@
 ### Ingestão de Dados de Marketing Banco
 1. Crie uma tabela no banco de dados testeingestao chamada “marketing_banco”
 
-a) No terminal digite: mysql -u root -p
-b) Caso não exista vamos criar uma base chamada “testeingestao”, digite:
-create database testeingestao;
-c) Agora criaremos a tabela “marketing_banco”. Ainda no terminal digite todo o script a seguir:
-use testeingestao;
-CREATE TABLE marketing_banco(
-idade int not null,
-estadoCivil varchar(30) not null,
-trabalho varchar(50) not null,
-casa int not null,
-emprestimo int not null,
-campanha int not null,
-contato varchar(50) not null);
+ a) No terminal digite: mysql -u root -p
+ 
+ b) Caso não exista vamos criar uma base chamada “testeingestao”, digite:
+ create database testeingestao;
+ 
+ c) Agora criaremos a tabela “marketing_banco”. Ainda no terminal digite todo o script a seguir:
+ use testeingestao;
+ CREATE TABLE marketing_banco(
+ idade int not null,
+ estadoCivil varchar(30) not null,
+ trabalho varchar(50) not null,
+ casa int not null,
+ emprestimo int not null,
+ campanha int not null,
+ contato varchar(50) not null);
 
 2. Essa tabela deve conter os seguintes campos:
 • idade inteiro não nulo,
