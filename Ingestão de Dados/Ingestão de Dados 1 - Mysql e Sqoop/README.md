@@ -26,6 +26,7 @@
    contato varchar(50) not null);
   ```
 2. Essa tabela deve conter os seguintes campos:
+  ```sh
 • idade inteiro não nulo,
 • estado civil varchar tamanho 30 não nulo,
 • trabalho varchar tamanho 50 não nulo,
@@ -33,6 +34,7 @@
 • empréstimo inteiro não nulo,
 • campanha inteiro não nulo
 • contato varchar tamanho 50 não nulo
+  ```
 Baixe os dados no seguinte link: Salve eles em "/home/cloudera/Downloads/”
 https://drive.google.com/file/d/1s5JotiouBon3DU7urq8JfDJeTtN2IZbY
 
