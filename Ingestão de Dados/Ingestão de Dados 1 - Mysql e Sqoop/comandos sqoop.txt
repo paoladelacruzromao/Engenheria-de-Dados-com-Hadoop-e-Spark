@@ -1,0 +1,22 @@
+sqoop import --connect jdbc:mysql://localhost:3306/testeingestao --username root --password cloudera --table pessoas --target-dir testesqoop/pessoas5 --columns 'ID,nome,regiao' --where 'ID>3' -m 1
+
+
+mysql crea uma table
+create table pessoas3 (
+ID int,
+nome varchar(100),
+regiao varchar(15)
+);
+
+sqoop export -–connect jdbc:mysql://localhost:3306/testeingestao --username root --password cloudera --table pessoas3 –-export-dir testesqoop/pessoas3
+
+https://drive.google.com/file/d/14BvVk6LjKAKfYMF8aXviFl9ARfWT2Z7K/view
+
+sqoop import --connect jdbc:mysql://localhost:3306/testeingestao --username root --password cloudera --table preco_medio_por_estado --target-dir testesqoop/preco_medio_por_estado -m 1
+
+
+HDFS
+hadoop jar /usr/lib/hadoop-0.20-mapreduce/contrib/streaming/hadoop-streaming-2.0.0.mr1-cdh5.4.2.jar -mapper "python mapper.py" -reducer "python reduce.py" -file mapper.py -file reduce.py -input testemapreduce/purchases.txt -output testemapreduce/jobout
+hadoop-streaming-2.6.0-mr1-cdh5.13.0.jar
+
+flume-ng agent --conf testebigdata/conf --conf-file testebigdata/conf/agente1.conf --name a1
