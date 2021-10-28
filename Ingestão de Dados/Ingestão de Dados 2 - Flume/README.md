@@ -1,6 +1,8 @@
-# 
+# # Ingestão de Dados para HDFS usando Flume
 
-Questão 2 - Trabalhando com o Flume
+## Trabalhando com o Flume
+### Ingestão de Dados fornecidas pela Agência de Informações de Energia dos Estados Unidos sobre o preço da energia.
+
 1. Vamos trabalhar com as informações fornecidas pela Agência de Informações de Energia dos Estados Unidos sobre o preço da energia por
 quilowatt-hora, por estado e por tipo de provedor. Para tanto, baixe o Excel com os dados do site:
 https://drive.google.com/open?id=14BvVk6LjKAKfYMF8aXviFl9ARfWT2Z7K
