@@ -11,17 +11,62 @@ Para esse projeto vamos utilizar a máquina da Cloudera, para poder usar o eclip
 7.	Uma vez importado os pacotes criamos nossa própria classe Hbase_create, botão direito no pacote e new class, o fazer drag and drop dessas classes já definidas.
 8.	 Dentro da classe temos uma função método chamado main , que o método principal daquela classe, que pode ou não receber argumentos e em caso de erro devolve uma exceção
 9.	Criamos a conexão com Apache Hbase, instanciando a classe configuration
+```sh
 Configuration con = HBaseConfiguration.create();
-10.	Depois instanciamos a HbaseAdmin para definir como vou trabalhar no Apache Hbase: HBaseAdmin admin = new HBaseAdmin(con);
-11.	Instanciamos o table descriptor para criar uma tabela no Hbase que é um banco de dados não relacional: HTableDescriptor tableDescriptor = new HTableDescriptor(TableName.valueOf("RH"));
-
+```
+10.	Depois instanciamos a HbaseAdmin para definir como vou trabalhar no Apache Hbase: 
+```sh
+HBaseAdmin admin = new HBaseAdmin(con);
+```
+13.	Instanciamos o table descriptor para criar uma tabela no Hbase que é um banco de dados não relacional: 
+```sh
+HTableDescriptor tableDescriptor = new HTableDescriptor(TableName.valueOf("RH"));
+```
 12.	Feito isso vamos adicionar a família de colunas
+```sh
+tableDescriptor.addFamily(new HColumnDescriptor("pessoal"));
+tableDescriptor.addFamily(new HColumnDescriptor("profissional"));
+```   
+13.	O código completo de minha classe vai ser:
+```sh
+package pipeop;
+import java.io.IOException;
 
+import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.HColumnDescriptor;
+import org.apache.hadoop.hbase.HTableDescriptor;
+import org.apache.hadoop.hbase.client.HBaseAdmin;
+import org.apache.hadoop.hbase.TableName;
+import org.apache.hadoop.conf.Configuration;
+
+public class Hbase_create {
+      
+   public static void main(String[] args) throws IOException {
+
+      // Instanciando a classe de configuracao
+      Configuration con = HBaseConfiguration.create();
+
+      // Instanciando a classe HbaseAdmin 
+      HBaseAdmin admin = new HBaseAdmin(con);
+
+      // Instanciando a table descriptor 
+      HTableDescriptor tableDescriptor = new HTableDescriptor(TableName.valueOf("RH"));
+
+      // Adicionando familias de colunas
       tableDescriptor.addFamily(new HColumnDescriptor("pessoal"));
       tableDescriptor.addFamily(new HColumnDescriptor("profissional"));
 
-13.	O código completo de minha classe vai ser:
+      // Criando a tabela
+      admin.createTable(tableDescriptor);
+      System.out.println(" Tabela criada ");
+   }
+}
+```
+14.	Vamos ver que as dependências não estão sendo encontradas por eclipse porque não estou informando onde está a APi de Hadoop, Hbase. Para isso clica botão direito em seu projeto, e vai na opção Build Path  Configure Build Path  Vai abrir um tab com opções.
 
-15.	Vamos ver que as dependências não estão sendo encontradas por eclipse
-pse
+16.	Você vai adicionar outras libraries. Clica em Add External Jars, no caso da Cloudera os jars do hadoop estão em: File System/usr/lib/hadoop/ e selecionar todos os .jar e da click em OK. Agora precisamos do mapreduce que estão em: File System/usr/lib/hadoop-0.20-mapreduce/ seleciona todos os .jar, agora preciso os jars  do Hdfs :  File System/usr/lib/hadoop-hdfs/ e seleciona todos os .jars, agora precisamos do Hbase : File System/usr/lib/hbase/ e selecionar todos .jar, e por ultimo precisamos de outros jars de Hbase que estão em : File System/usr/lib/hbase/lib/ e seleciona todos .jar e clica OK
+16.	Vamos inicializar o hbase no terminal cica hbase shell, vamos dar list e vai ver que não tem tabelas criadas 
+17.	Para executar nossa aplicação botão direito Run as Java Application e vai criar a tabela RH
+
+
 
