@@ -1,10 +1,15 @@
 # ETL Oracle/Hadoop com Sqoop
 
-########### Conectar no SO como usuário hadoop ###########
+![ETL Hadoop Sqoop Hive](https://user-images.githubusercontent.com/87387315/140417928-756d9bd4-2947-4cd2-8d25-4e31b4f69a57.png)
+![sqoop caracteristicas](https://user-images.githubusercontent.com/87387315/140417956-055f4a0f-c311-42b1-90d6-ebdf6703f17e.png)
+![execução sqoop](https://user-images.githubusercontent.com/87387315/140417976-0f90c5c3-af9d-4d84-9143-ba82ca12fe40.png)
+
+## Conectar no SO como usuário hadoop ###
+
 Logear com usuario Hadoop em no SO. Verificamos que o Hadoop e o yarn estão inicializados com o comando jps
 Em caso de não estar inicializados digita no terminal
 
-# Como usuario hadoop, inicializar HDFS e Yarn
+1. Como usuario hadoop, inicializar HDFS e Yarn
 ```sh
 jps
 start-dfs.sh
@@ -12,26 +17,30 @@ start-yarn.sh
 ```
 
 
-########### Conectar no SO como usuário oracle ###########
+## Conectar no SO como usuário oracle ##
 
-# Baixar o driver JDBC para o Sqoop
+1. Baixar o driver JDBC para o Sqoop
 https://www.oracle.com/database/technologies/jdbc-ucp-122-downloads.html
 
 
-# Descompactar o arquivo
+2. Descompactar o arquivo
+```sh
 tar -xvf ojdbc8-full.tar.gz
+```
 
-
-# Copiar o arquivo para o diretorio do sqoop
+3. Copiar o arquivo para o diretorio do sqoop
+```sh
 cp ojdbc8.jar /opt/sqoop/lib
+```
 
+### No usuario oracle, configurar as variáveis de ambiente para o Hadoop e Sqoop no arquivo ˜/.bashrc
 
-# No usuario oracle, configurar as variáveis de ambiente para o Hadoop e Sqoop no arquivo ˜/.bashrc
-
-# Java JDK
+4. Java JDK
+```sh
 export JAVA_HOME=/opt/jdk
 export PATH=$PATH:$JAVA_HOME/bin
-
+```
+```sh
 # Hadoop
 export HADOOP_HOME=/opt/hadoop
 export HADOOP_INSTALL=$HADOOP_HOME
@@ -40,37 +49,43 @@ export HADOOP_MAPRED_HOME=$HADOOP_HOME
 export HADOOP_HDFS_HOME=$HADOOP_HOME
 export YARN_HOME=$HADOOP_HOME
 export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
-
+```
+```sh
 # Sqoop
 export SQOOP_HOME=/opt/sqoop
 export PATH=$PATH:$SQOOP_HOME/bin
 export HCAT_HOME=/opt/sqoop/hcatalog
 export ACCUMULO_HOME=/opt/sqoop/accumulo
+```
 
 
-
-# Como usuário hadoop, definir os privilégios com os comandos abaixo:s
-
+5. Como usuário hadoop, definir os privilégios com os comandos abaixo:s
+```sh
 hdfs dfs -chmod -R 777 /
 chmod -R 777 /opt/hadoop/logs
-
-# Como root:
+```
+6. Como root:
+```sh
 groups oracle
 usermod -a -G hadoop oracle
+```
 
-
-# Importação de Dados do Oracle para o HDFS
-
+7. Importação de Dados do Oracle para o HDFS
+```sh
 sqoop import --connect jdbc:oracle:thin:aluno/dsahadoop@dataserver.localdomain:1539/orcl --username aluno -password dsahadoop --query "select user_id, movie_id from cinema where rating = 1 and \$CONDITIONS" --target-dir /user/oracle/output -m 1
 
 sqoop import -D mapreduce.map.memory.mb=1024 -D mapreduce.map.java.opts=-Xmx768m --connect jdbc:oracle:thin:aluno/dsahadoop@dataserver.localdomain:1539/orcl --username aluno -password dsahadoop --query "select user_id, movie_id from cinema where rating = 1 and \$CONDITIONS" --target-dir /user/oracle/output -m 1
-
-# Checar o HDFS:
+```
+8. Checar o HDFS:
+```sh
 hdfs dfs -ls /user
-
-# Comando usado para corrigir problemas com blocos corrompidos, caso ocorra
+```
+9. Comando usado para corrigir problemas com blocos corrompidos, caso ocorra
+```sh
 hdfs fsck / | egrep -v '^\.+$' | grep -v replica | grep -v Replica
-
-# Para deixar o modo de segurança do Hadoop
+```
+10. Para deixar o modo de segurança do Hadoop
+```sh
 hdfs dfsadmin -safemode leave
+```
 
