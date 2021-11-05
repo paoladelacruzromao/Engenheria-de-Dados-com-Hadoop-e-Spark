@@ -2,7 +2,6 @@
 
 ![ETL Hadoop Sqoop Hive](https://user-images.githubusercontent.com/87387315/140417928-756d9bd4-2947-4cd2-8d25-4e31b4f69a57.png)
 ![sqoop caracteristicas](https://user-images.githubusercontent.com/87387315/140417956-055f4a0f-c311-42b1-90d6-ebdf6703f17e.png)
-![execução sqoop](https://user-images.githubusercontent.com/87387315/140417976-0f90c5c3-af9d-4d84-9143-ba82ca12fe40.png)
 
 ## Conectar no SO como usuário hadoop ###
 
@@ -111,6 +110,9 @@ usermod -a -G hadoop oracle
 ```
 
 7. Importação de Dados do Oracle para o HDFS
+
+![execução sqoop](https://user-images.githubusercontent.com/87387315/140417976-0f90c5c3-af9d-4d84-9143-ba82ca12fe40.png)
+
 ```sh
 sqoop import --connect jdbc:oracle:thin:aluno/dsahadoop@dataserver.localdomain:1539/orcl --username aluno -password dsahadoop --query "select user_id, movie_id from cinema where rating = 1 and \$CONDITIONS" --target-dir /user/oracle/output -m 1
 
