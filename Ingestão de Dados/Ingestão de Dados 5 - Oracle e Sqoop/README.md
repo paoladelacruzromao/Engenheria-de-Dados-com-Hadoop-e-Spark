@@ -97,8 +97,12 @@ O usuário  oracle não tem privilegios para escrever. Podemos dar essos privile
 
 5. Como usuário hadoop, definir os privilégios com os comandos abaixo:s
 ```sh
+su
+[senha]
+su - hadoop
 hdfs dfs -chmod -R 777 /
 chmod -R 777 /opt/hadoop/logs
+exit
 ```
 6. Como root:
 ```sh
