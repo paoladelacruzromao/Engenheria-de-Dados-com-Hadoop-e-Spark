@@ -34,18 +34,33 @@ exit
 ```
 ## Conectar no SO como usuário oracle ##
 
-1. Baixar o driver JDBC para o Sqoop
+1. Baixar o driver JDBC para o Sqoop. Baixe a versão full
 https://www.oracle.com/database/technologies/jdbc-ucp-122-downloads.html
 
 
 2. Descompactar o arquivo
 ```sh
+cd Downloads/
 tar -xvf ojdbc8-full.tar.gz
+
+cd OJDBC8-Full/
+ls -la
+
 ```
 
-3. Copiar o arquivo para o diretorio do sqoop
+3. Copiar o arquivo para o diretorio do sqoop. Eu não consigo fazer essa copia com usuário oracle preciso conectar com usuário root
 ```sh
+su 
+[senha]
 cp ojdbc8.jar /opt/sqoop/lib
+cd /opt/sqoop/lib/
+ls -la
+
+//Vamos mudar a propiedade do propitario do arquivo
+chown hadoop:hadoop ojdbc8.jar
+
+//Dar exit para sair do usuário root
+exit
 ```
 
 ### No usuario oracle, configurar as variáveis de ambiente para o Hadoop e Sqoop no arquivo ˜/.bashrc
