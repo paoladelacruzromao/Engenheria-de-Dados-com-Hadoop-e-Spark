@@ -65,13 +65,14 @@ exit
 
 ### No usuario oracle, configurar as variáveis de ambiente para o Hadoop e Sqoop no arquivo ˜/.bashrc
 O usuário oracle não tem acesso ao HDFS, porque ele foi instalado com o usuário hadoop para isso precisamos configurar as variáveis de ambiente
+cd ~
+gedit .bashrc
 
-4. Java JDK
+4. Java JDK - colar todo em .bashrc
 ```sh
 export JAVA_HOME=/opt/jdk
 export PATH=$PATH:$JAVA_HOME/bin
-```
-```sh
+
 # Hadoop
 export HADOOP_HOME=/opt/hadoop
 export HADOOP_INSTALL=$HADOOP_HOME
@@ -80,15 +81,19 @@ export HADOOP_MAPRED_HOME=$HADOOP_HOME
 export HADOOP_HDFS_HOME=$HADOOP_HOME
 export YARN_HOME=$HADOOP_HOME
 export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
-```
-```sh
+
 # Sqoop
 export SQOOP_HOME=/opt/sqoop
 export PATH=$PATH:$SQOOP_HOME/bin
 export HCAT_HOME=/opt/sqoop/hcatalog
 export ACCUMULO_HOME=/opt/sqoop/accumulo
 ```
-
+Para efectuar os cambios no .bashrc digita:
+```sh
+source .bashrc
+hdfs dfs -ls
+```
+O usuário  oracle não tem privilegios para escrever. Podemos dar essos privilegios usando Kerberos , mas em este caso vamos configurar para que qualquer um possa escrever no HDFS.
 
 5. Como usuário hadoop, definir os privilégios com os comandos abaixo:s
 ```sh
