@@ -114,6 +114,8 @@ usermod -a -G hadoop oracle
 ![execução sqoop](https://user-images.githubusercontent.com/87387315/140417976-0f90c5c3-af9d-4d84-9143-ba82ca12fe40.png)
 
 ```sh
+cd /home/oracle/etl
+
 sqoop import --connect jdbc:oracle:thin:aluno/dsahadoop@dataserver.localdomain:1539/orcl --username aluno -password dsahadoop --query "select user_id, movie_id from cinema where rating = 1 and \$CONDITIONS" --target-dir /user/oracle/output -m 1
 
 sqoop import -D mapreduce.map.memory.mb=1024 -D mapreduce.map.java.opts=-Xmx768m --connect jdbc:oracle:thin:aluno/dsahadoop@dataserver.localdomain:1539/orcl --username aluno -password dsahadoop --query "select user_id, movie_id from cinema where rating = 1 and \$CONDITIONS" --target-dir /user/oracle/output -m 1
