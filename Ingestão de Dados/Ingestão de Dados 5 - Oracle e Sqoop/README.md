@@ -25,6 +25,12 @@ su [senha]
 su - hadoop 
 start-dfs.sh
 start-yarn.sh
+
+//Digita exit para sair do usuário hadoop
+exit
+
+//Digita exit para sair so usuário root
+exit
 ```
 ## Conectar no SO como usuário oracle ##
 
