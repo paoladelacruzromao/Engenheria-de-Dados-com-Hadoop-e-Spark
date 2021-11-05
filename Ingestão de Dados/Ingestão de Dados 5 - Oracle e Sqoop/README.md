@@ -16,7 +16,16 @@ start-dfs.sh
 start-yarn.sh
 ```
 
+Para não sair do usuário oracle podemos conectar da seguinte forma:
+```sh
+//Conecto com usuário root
+su [senha] 
 
+//Conectar com usuário hadoop e as variáveis do sistema com
+su - hadoop 
+start-dfs.sh
+start-yarn.sh
+```
 ## Conectar no SO como usuário oracle ##
 
 1. Baixar o driver JDBC para o Sqoop
