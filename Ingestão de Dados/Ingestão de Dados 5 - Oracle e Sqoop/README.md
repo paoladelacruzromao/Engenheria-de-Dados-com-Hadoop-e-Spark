@@ -64,6 +64,7 @@ exit
 ```
 
 ### No usuario oracle, configurar as variáveis de ambiente para o Hadoop e Sqoop no arquivo ˜/.bashrc
+O usuário oracle não tem acesso ao HDFS, porque ele foi instalado com o usuário hadoop para isso precisamos configurar as variáveis de ambiente
 
 4. Java JDK
 ```sh
