@@ -118,6 +118,7 @@ cd /home/oracle/etl
 
 sqoop import --connect jdbc:oracle:thin:aluno/dsahadoop@dataserver.localdomain:1539/orcl --username aluno -password dsahadoop --query "select user_id, movie_id from cinema where rating = 1 and \$CONDITIONS" --target-dir /user/oracle/output -m 1
 
+//Esse comando é o mesmo que o anterior mas configurando a quantidade de memoria a usar
 sqoop import -D mapreduce.map.memory.mb=1024 -D mapreduce.map.java.opts=-Xmx768m --connect jdbc:oracle:thin:aluno/dsahadoop@dataserver.localdomain:1539/orcl --username aluno -password dsahadoop --query "select user_id, movie_id from cinema where rating = 1 and \$CONDITIONS" --target-dir /user/oracle/output -m 1
 ```
 8. Checar o HDFS:
