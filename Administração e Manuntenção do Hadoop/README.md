@@ -1,5 +1,8 @@
 # Administração e configuração de um cluster Hadoop
 ## Desafios na gestão de um cluster hadoop
+
+![image](https://user-images.githubusercontent.com/87387315/141306999-d4707676-6cd1-4552-97de-4498a434ebf3.png)
+
 1.	Falta de gestão de configuração: deve existir um processo de gestão de boas práticas para que a gestão do cluster hadoop não se torne inadministrável
 2.	Baixa locação de recursos: não por ter um cluster vamos renunciar a boas máquinas e alocação de memória para ter um bom processamento e ambiente de armazenamento.
 3.	Gargalhos de rede: o administrador de rede tem que estar envolvido na gestão da rede para evitar problemas de performance e falhas no cluster como timeout, tempo de espera do processamento, tempo de espera de buscar os blocos etc.
@@ -9,13 +12,13 @@
 7.	Utilização dos valores default para os parâmetros: se você mante os valores default você não está customizando o hadoop as necessidades de sua empresa.
 8.	Falta de professionais qualificados: Aprender a trabalhar eficientemente com hadoop requere grandes conhecimentos do sistema operacional.
 
- 
-
 ##  Namenode e Estrutura de Diretórios
  
-
+![image](https://user-images.githubusercontent.com/87387315/141307028-38869158-2a6e-4b51-96a7-e7f9da2f533b.png)
  
 Name node vai gravando pequenas alterações em edit logs, com o tempo o edit logs fica muito grande pelo que temos que gravar no fsimage essa é a função do secondary Namenode, mantendo assim toda a consistência dos dados.
+![image](https://user-images.githubusercontent.com/87387315/141307072-4c1f1f1a-2100-4525-9420-76875c2fa55e.png)
+
 O hadoop permite que se informe detalhes sobre a topologia da rede em que o cluster está configurado para ter uma melhor distribuição. Verificar que estão em racks diferentes para não impactar nosso trabalho em caso de falhas.
 
 ## Namenode
@@ -75,23 +78,19 @@ Os datanodes não precisam ser formatados assim como fazemos com os namenode, el
 A estrutura do Datanode é similar a do namenode com um arquivo chamado version, com informações sobre o servidor é os arquivos binários 
 Não se usa RAID de discos para fazer copias de seguranças dos blocos. O RAID e uma forma de ter redundância de disco, você tem um HD e você tem um segundo HD para espelhamento. Em um ambiente hadoop não preciso de RAID porque eu tenho 3 replicas de cada bloco, não faz sentido aplicar raid, porque arquitetura hadoop e preparada para tolerância a falhas.
  
+![image](https://user-images.githubusercontent.com/87387315/141307146-65b044db-87b2-4415-9346-ede42bb5c3b2.png)
 
 ## Metadados de sistema de arquivos
 **Metadados** são informações gerais sobre o cluster e sobre os dados. São dados sobre os dados, nos permitem buscar informações sobre os dados.
 Atenção não intente modificar diretórios ou arquivos de metadados, porque pode causar a interrupção do HDFS ou até mesmo a perda de dados de forma permanente. O backup de dados é uma tarefa crítica em um cluster hadoop.
 
+![image](https://user-images.githubusercontent.com/87387315/141307234-6754e7b5-e975-40e7-b5de-65d41a9c92b3.png)
  
-
-
-
 Exemplo de como os dados estão estruturados: O checkpoint garante poder recuperar os dados ate ultimo checkpoint.
 
- 
- 
-
- 
+ ![image](https://user-images.githubusercontent.com/87387315/141307261-c7ad67ed-3d06-435e-b1ad-bb73ce04f22b.png)
 
 ## Procedimento de checkpoint
 O Namenode lei os metadados do fsimage(formato próprio para leitura) e grava os metadados em no editlog. O Namenode registra operação de modificação no editlog. 
 Dessa forma em caso de falha do namenode ele poderá restaurar seu estado, carregando fsimage e enseguida repetindo todas as operações do edit log.
-O problema é que a medida que o namenode vai gravando informações 
+
