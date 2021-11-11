@@ -21,27 +21,36 @@ Então porque usar Apache Mahout, é por um simple motivo nenhum desses framewor
 4.	Possui diferentes opções de clustering (aprendizagem não superficionada):K-means, Cluzzy K-means, Canopy e Mean-Shift. Esses algoritmos são utilizados para agrupamento de dados e busca de padrões.
 5.	Suporta a execução do algoritmo de Naive Bayes de forma distribuída (como projetos de fraudes, spans, etc) 
 6.	Inclui bibliotecas para vectores e matrizes
-7.	
+
 ## Instalação e configuração do Apache Mahout
 1.	Procurar em https://mahout.apache.org, downloads procurar pela versão clica em downloads Latest versions e vamos usar a versão 0.13.0 -> https://downloads.apache.org/mahout/0.13.0/apache-mahout-distribution-0.13.0.tar.gz e copia o link.
 2.	Ir para o diretório de downloads no terminal e baixar o arquivo o dar um wget para baixar o arquivo pelo terminal.
 cd Downloads/
 wget  https://downloads.apache.org/mahout/0.13.0/apache-mahout-distribution-0.13.0.tar.gz
 3.	Descompactar o arquivo:
+```sh
 tar -xvf  apache-mahout-distribution-0.13.0.tar.gz
+```
 
 4.	Vamos mover o Mahout para o diretório padrão /opt/mahoud, e depois verificar que o proprietário do arquivo e o usuário hadoop.
-       sudo mv apache-mahout-distribution-0.13.0 /opt/mahoud
+```sh
+sudo mv apache-mahout-distribution-0.13.0 /opt/mahoud
 [ingresse o password]
+```
 5.	Vamos a raiz do sistema para configurar as variáveis de ambiente
+```sh
 cd ~
 gedit .bashrc
-
+```
+```sh
 #Mahout
 export MAHOUT_HOME=/opt/mahout
 export PATH=$PATH:$MAHOUT_HOME/bin
-
+```
+```sh
 source .bashrc
-
+```
 6.	Para testar digita mahout
+```sh
 mahout
+```
