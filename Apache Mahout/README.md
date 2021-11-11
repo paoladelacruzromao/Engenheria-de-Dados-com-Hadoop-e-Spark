@@ -1,5 +1,5 @@
 
-![image](https://user-images.githubusercontent.com/87387315/141356732-f4198ad9-ea85-40ff-b9b1-55f0e58fd42b.png)
+![image](https://user-images.githubusercontent.com/87387315/141356889-3260499e-3c17-438c-b681-6e5e8de877c2.png)
 
 # APACHE MAHOUT
 E uma biblioteca open source, que permite a execução de modelos de machine learning em dados armazenados no HDFS. O nome Mahout significa o homem que domina ao elefante.
