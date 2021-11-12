@@ -36,6 +36,9 @@ cd K-means\ Clustering/
 cp -R news/ /home/hadoop
 chown -R hadoop:hadoop /home/hadoop/news
 
+//Sair do root
+exit
+ls -la / news
 ```
 ## Cria uma pasta no HDFS
 ```sh
