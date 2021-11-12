@@ -27,12 +27,15 @@ procedimento segue até que os centroides estabilizem em algum valor.
 Em este projeto vamos usar o algoritmo k-medias para fazer a clusterização dos grupos de noticias usando Mahout, de forma de classificar a noticia em esporte, politica, etc.
 # Criando um modelo preditivo de aprendizagem não-supervisionada
 ## Copiar os arquivos do file compartilhado 
+```sh
 su
 [password]
 cd /media/sf_Cap10/
 cd Apache\ Mahout/
 cd K-means\ Clustering/
 cp -R news/ /home/Hadoop
+chown -R hadoop:hadoop /home/hadoop/news
+```
 ## Cria uma pasta no HDFS
 ```sh
 hdfs dfs -mkdir /mahout/clustering
