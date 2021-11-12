@@ -25,6 +25,7 @@ média(15 + 15 + 16)). O mesmo é feito para o centróide 22 (36,25 = média(19,
 procedimento segue até que os centroides estabilizem em algum valor.
 
 Em este projeto vamos usar o algoritmo k-medias para fazer a clusterização dos grupos de noticias usando Mahout, de forma de classificar a noticia em esporte, politica, etc.
+Reclacandoo algorimo não sabe o tipo de noticia, ele só cria os grupos e o cientista de dados que define esse grupo.
 # Criando um modelo preditivo de aprendizagem não-supervisionada
 ## Copiar os arquivos do file compartilhado 
 ```sh
@@ -88,3 +89,9 @@ mahout clusterdump -i /mahout/clustering/kmeansclusters/clusters-1-final -o clus
 ```sh
 cat clusterdump.txt
 ```
+Podemos ver que os clusters estão definidos como "VL-#", podemos ver que para o cluster VL-6 temos dois arquivos. Podemos ver que temos 7 arquivos em 3 clusters. Da para ver que o sistema fez o calculo de distancia com o centroide para definir os clusters 
+Weight : [props - optional]:  Point:
+	1.0 : [distance=0.3098571362238056]: [{"big":1.336},{"fast":1.847},{"obama":1.847},{"senate":1.847},{"track":1.847},{"trade":3.186},{"won":1.847}]
+	1.0 : [distance=0.05348222003716152]: [{"domination":1.847},{"fast":1.847},{"has":1.56},{"life":1.847},{"obama":1.847},{"our":3.186},{"senate":1.847},{"track":1.847},{"world":1.847}]
+  
+![image](https://user-images.githubusercontent.com/87387315/141534817-093ec439-406d-4c43-bb18-c21d8e2c15ab.png)
