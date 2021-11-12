@@ -69,23 +69,28 @@ hdfs dfs -ls /mahout/output/sparseoutput
 ```
 
 ## Split dos dados em treino e teste
-|	-i	                  |pasta com dados de entrada
-|	--trainingOutput	    |dados de treino
-|	--testOutput		   | dados de teste
-|	--randomSelectionPct	   | percentual de divisão dos dados
-|	--overwrite	            |overwrite
-|	--sequenceFiles		    input sequencial
-|	--xm		                  tipo de processamento. 
+```sh
+-i pasta com dados de entrada
+--trainingOutput dados de treino
+--testOutput dados de teste
+--randomSelectionPct percentual de divisão dos dados
+--overwrite overwrite
+--sequenceFiles input sequencial
+--xm tipo de processamento. 
+```
+
 ```sh
 mahout split -i /mahout/output/sparseoutput/tfidf-vectors --trainingOutput /mahout/nbTrain --testOutput /mahout/nbTest --randomSelectionPct 30 --overwrite --sequenceFiles -xm sequencial
 ```
 
 ## Construção do Modelo Preditivo
-|-i	|dados de treino
-|-li | onde armazenar os labels
-|	-o	| onde armazenar o modelo
-|	-ow	| overwrite
-|	-c	| complementary
+```sh
+-i dados de treino
+-li onde armazenar os labels
+-o onde armazenar o modelo
+-ow overwrite
+-c complementary
+```
 ```sh
 
 mahout trainnb -i /mahout/nbTrain -li /mahout/nbLabels -o /mahout/nbmodel -ow -c
