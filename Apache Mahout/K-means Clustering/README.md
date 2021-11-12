@@ -33,8 +33,9 @@ su
 cd /media/sf_Cap10/
 cd Apache\ Mahout/
 cd K-means\ Clustering/
-cp -R news/ /home/Hadoop
+cp -R news/ /home/hadoop
 chown -R hadoop:hadoop /home/hadoop/news
+
 ```
 ## Cria uma pasta no HDFS
 ```sh
