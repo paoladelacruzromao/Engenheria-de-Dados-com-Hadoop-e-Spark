@@ -57,8 +57,8 @@ hdfs dfs -copyFromLocal spam/* /mahout/input/spam
 ```sh
 mahout seqdirectory -i /mahout/input -o /mahout/output/seqoutput
 ```
-
-## Converte a sequence em vetores TF-IDF 
+## Pre-processamento em Apache Mahout
+## Converte a sequence em vetores TF-IDF (Term of frequency - Inverse Document Frequency)(Contagem das palavras nos textos)
 ```sh
 mahout seq2sparse -i /mahout/output/seqoutput -o /mahout/output/sparseoutput
 ```
@@ -67,7 +67,7 @@ mahout seq2sparse -i /mahout/output/seqoutput -o /mahout/output/sparseoutput
 ```sh
 hdfs dfs -ls /mahout/output/sparseoutput
 ```
-
+## Divisão de dados de Treino e Teste
 ## Split dos dados em treino e teste
 ```sh
 -i pasta com dados de entrada
