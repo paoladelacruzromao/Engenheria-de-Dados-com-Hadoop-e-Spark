@@ -89,7 +89,7 @@ mahout clusterdump -i /mahout/clustering/kmeansclusters/clusters-1-final -o clus
 ```sh
 cat clusterdump.txt
 ```
-Podemos ver que os clusters estão definidos como "VL-#", podemos ver que para o cluster VL-6 temos dois arquivos. Podemos ver que temos 7 arquivos em 3 clusters. Da para ver que o sistema fez o calculo de distancia com o centroide para definir os clusters 
+Podemos ver que os clusters estão definidos como "VL-#", p para o cluster VL-6 temos dois arquivos. Podemos ver que temos 7 arquivos em total, agrupados em 3 clusters. Se observa que o sistema fez o calculo de distancia com o centroide para definir os clusters 
 Weight : [props - optional]:  Point:
 	1.0 : [distance=0.3098571362238056]: [{"big":1.336},{"fast":1.847},{"obama":1.847},{"senate":1.847},{"track":1.847},{"trade":3.186},{"won":1.847}]
 	1.0 : [distance=0.05348222003716152]: [{"domination":1.847},{"fast":1.847},{"has":1.56},{"life":1.847},{"obama":1.847},{"our":3.186},{"senate":1.847},{"track":1.847},{"world":1.847}]
