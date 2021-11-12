@@ -10,6 +10,8 @@ iterativo, a inicialização sendo a iteração 0. Na próxima iteração serão
 centroide calculado como a média dos elementos mais próximos a cada centroide da iteração anterior. O processo segue até que os
 valores dos centroides não se modifiquem.
 
+![image](https://user-images.githubusercontent.com/87387315/141522953-b91faf4d-7bc2-45ec-bed0-5225c51e11f7.png)
+
 Um exemplo numérico em dimensão 1 Sayad (2018) deixa claro o procedimento utilizado. Você e um amigo estão levando um
 grupo com pessoas de diferentes idades para uma excursão na cidade. Vocês querem dividir o grupo para que cada um possa
 ser guia de uma parte do grupo. Vocês decidem usar então um K-médias, K=2, para fazer a divisão do grupo.
