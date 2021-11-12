@@ -1,0 +1,1 @@
+Last year was a big year for big data, and enterprises are increasingly showcasing more production uses of Hadoop, demonstrating more successes with a broader array of big data technologies, and solidifying innovative ways of using data science to improve business outcomes.
