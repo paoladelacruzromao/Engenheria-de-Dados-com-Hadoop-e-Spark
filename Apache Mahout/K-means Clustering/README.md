@@ -1,4 +1,4 @@
-# K-médias com Mahout
+# K-means com Mahout
 
 A ideia do algoritmo K-médias está baseada na ideia de centroide. Centroide é uma instância, seja uma instância real ou virtual,
 localizada no “centro” de um grupo de instâncias. Por exemplo:se tivermos 3 instâncias de saldos de clientes 100, 100 e 400, 
