@@ -107,7 +107,7 @@ mahout trainnb -i /mahout/nbTrain -li /mahout/nbLabels -o /mahout/nbmodel -ow -c
 
 mahout testnb -i /mahout/nbTest -m /mahout/nbmodel -l /mahout/nbLabels -ow -o /mahout/nbpredictions -c
 ```
-
+Podemos ver que nosso modelo chegou ao 100%, isso poderia ser um overfitting, mas como nosso modelo tem poucos dados se justifica a resposta.
 
 
 
