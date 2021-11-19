@@ -13,9 +13,8 @@ O ponto de partida é a Console de Gerenciamento AWS, para acessar o catálogo d
 •	Vamos para Console de gerenciamento AWS e digitas S3 na caixinha de busca digitas em S3 Armazenamento escalável em a nuvem. Ele vai levar para o Dashboard do S3. 
 •	Vamos criar um bucket, lembra o nome tem que ser único em toda aws. Trabalhar com a região do Ohio o custo é menor que trabalhar na região de São Paulo. Clica em Criar Bucket
 •	Acessa Bucket clica em carregar, vai abrir outra tela, arrastre de seu explorer para nuvem, clica em carregar. Depois de fazer a carga vai aparecer uma tela verde indicando que o upload foi realizado com sucesso, pode clicar em Fechar, e vai levar para tela de resumo mostrando o arquivo na nuvem. Clica no ícone AWS com botão direito e abra uma nova aba e vamos voltar novamente para o Console de gerenciamento.
-![image](https://user-images.githubusercontent.com/87387315/142626423-be3b32ad-ff19-4d89-8c16-8db7b5444dbd.png)
 
- 
+![image](https://user-images.githubusercontent.com/87387315/142626423-be3b32ad-ff19-4d89-8c16-8db7b5444dbd.png)
 
 3.	Agora vamos criar o multinode Cluster, para isso precisamos de EMR, que é uma forma que AWS encontrou de ofrecer para você um cluster com apache Hadoop com apenas uns clicks.
 •	Clica em Criar cluster, ele vai levar a uma tela para você configurar seu cluster:
@@ -25,6 +24,7 @@ O ponto de partida é a Console de Gerenciamento AWS, para acessar o catálogo d
 	Modo de execução: cluster
 	Versão de configuração:emr-6.3.0
 	Configuração de Software PrestoSQL com Hadoop 3.2.1 HDFS e Hive 3.1.2 Metastore
+
  ![image](https://user-images.githubusercontent.com/87387315/142626483-c1479049-a270-45fc-a598-7a73726931b3.png)
 
 	Configuração de HW, cada um dessas opções tem preços diferentes em este caso vamos usar m5.xlarge, eu poderia configurar alta escalabilidade no cluster, mas neste caso vamos deixar sem marcar:
@@ -44,6 +44,7 @@ mkdir Keys
 •	Se quer ver as máquinas rodando vai para Aws botão direito e abra uma nova aba clica EC2, vai ver as 3 instancias em execução.
 •	Voltamos para EMR, e vamos conectar no cluster: Connect to the Master Node using SSH. Para ver o tipo de conexão em Linux ou Windows.
 •	Acesso remoto ao cluster: Copia esse comando e depois vai para o terminal o primer passo é acessar a pasta onde está a chave em meu caso está no diretório keys
+
 ![image](https://user-images.githubusercontent.com/87387315/142626658-9ad10e12-cae0-40f8-a65d-279cf5329e0c.png)
 
  ```sh
@@ -51,9 +52,11 @@ cd Keys/
 ssh -i ~/aws-dsa.pem hadoop@ec2-18.....
 ```
 •	Vai ver que não acontece nada porque está faltando desbloquear o acesso publico. Vai nessa opção e da alterar.
+
  ![image](https://user-images.githubusercontent.com/87387315/142626714-c27b7bdd-5176-4bff-83ef-3e4957081e46.png)
 
 •	Executa novamente o comando ssh -i ~/aws-dsa.pem hadoop@ec2-18..... e da enter:
+
  ![image](https://user-images.githubusercontent.com/87387315/142626770-38907f37-b03a-44af-938f-6a65cb81ac2e.png)
 
 •	Em caso você tenha ainda problema para conectar no cluster. Vai para o EC2, vai aonde estão as três instancias e procura pela coluna grupo de segurança. Vê no menu esquerdo em Rede de Segurança e vai em security groups.
