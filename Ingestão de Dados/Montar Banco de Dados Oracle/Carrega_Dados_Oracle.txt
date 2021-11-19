@@ -10,11 +10,11 @@ exit
 
 
 ########### Conectar no SO como usuário oracle ###########
-
-
 # Cria o schema no Banco de Dados e concede privilégios
 sqlplus / as sysdba
-create user aluno identified by adminhadoop;
+sql>startup
+
+sql>create user aluno identified by adminhadoop;
 grant connect, resource, unlimited tablespace to aluno;
 
 
@@ -78,5 +78,23 @@ sqlldr userid=aluno/adminhadoop control=loader.dat log=loader.log
 sqlplus aluno@orcl
 
 select count(*) from cinema;
+
+########### Comandos Extras ############
+
+## Comando usado para corrigir problemas com blocos corrompidos, caso ocorra
+hdfs fsck / | egrep -v '^\.+$' | grep -v replica | grep -v Replica
+
+## Para deixar o modo de segurança do Hadoop
+hdfs dfsadmin -safemode leave
+
+## SQLplus - inicaliza o banco de dados
+lsnrctl start
+sqlplus / as SYSDBA
+startup
+
+#Parar o banco Oracle
+lsnrctl stop (parar o listener)
+sqlplus / as sysdba
+shutdown immediate (parar o serviço)
 
 
