@@ -2,6 +2,8 @@
 ## Apache Hadoop Yarn
 Yarn gerencia recursos de um cluster.
   
+  ![image](https://user-images.githubusercontent.com/87387315/142639365-73ca40f7-0b66-4ba5-9d2c-cd23d9a593ff.png)
+
 (*) Daemons – processo que roda em segundo plano.
 ## Parâmetros de configuração do yarn
  ```sh
@@ -16,13 +18,21 @@ gedit yarn-site.xml
 ## Arquitectura Spark Yarn
 O deploy é você pegar sua aplicação e submeter e cluster hadoop. Temos o modo client e cluster. Quando você abre por exemplo o pyspark para que eles funcionem criam um spark context e habilitam o Spark Driver usando a forma de execução client, por outro lado você pode criar um job e agendar para ser executado a noite então você executa de modo cluster. O modo cluster e ideal quando aplicação e muito pesada.
 
+![image](https://user-images.githubusercontent.com/87387315/142639444-46458b78-11ee-41ca-8b7f-c2750b358a70.png)
+
 Quando chega um job do Spark o Yarn vai preguntar para o resource manager se tem recursos para executar o job , vai falar divida o job entre dois maquinas, cada tarefa vai rodar em um container dentro de um node manager ou nodes managers que são as maquinas que tem os datanodes.
  
+ ![image](https://user-images.githubusercontent.com/87387315/142639485-c7bec806-ad62-4112-bd67-c81ca2f7face.png)
+
+
 Como o Spark manda os arquivos de configuração para o yarn:
 
 O Apache Spark pode ser instalado no Master ou remotamente. No Master só bastaria configurar as variáveis de ambiente para o yarn gerenciar os recursos do spark, essa configuração em nosso cluster está em: /opt/hadoop/etc/hadoop/
 Mas se o Spark estiver em uma máquina remota, em esse caso o ideal e copiar todo o directorio hadoop e levar para outra máquina remota onde esta o Spark. Lembra não existe instalação e só copiar os arquivos.
- 
+
+ ![image](https://user-images.githubusercontent.com/87387315/142639535-dfd2da1c-7a1e-4ab6-9a84-7f613690b674.png)
+
+
 ## Configurar o yarn com spark na mesma máquina:
 •	Uma opção é em opt/spark/conf/ configurar em spark-env.sh a variável 
  ```sh
@@ -86,3 +96,5 @@ chmod 755 app.sh
 ./app.sh
  
  ```
+ ![image](https://user-images.githubusercontent.com/87387315/142639599-b049989c-4a20-4c23-b8c4-6c6107911c33.png)
+
