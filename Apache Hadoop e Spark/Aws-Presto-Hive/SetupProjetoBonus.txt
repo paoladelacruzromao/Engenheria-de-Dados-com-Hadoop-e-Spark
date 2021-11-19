@@ -1,0 +1,23 @@
+# Setup Projeto Bônus
+
+# Ajusta o privilégio de acesso
+sudo su -c 'mkdir -p /var/log/hive/user/hadoop && chown -R hadoop /var/log/hive/user/hadoop'
+
+# Executa o Hive
+hive
+
+# Cria tabela externa para o arquivo CSV no Hive
+CREATE EXTERNAL TABLE tb_dados_taxis (vendor_id VARCHAR(3), pickup_datetime TIMESTAMP, dropoff_datetime TIMESTAMP, passenger_count SMALLINT, trip_distance DECIMAL(6,3), rate_code_id SMALLINT, store_and_fwd_flag VARCHAR(1), PULocationID SMALLINT, DOLocationID SMALLINT, payment_type VARCHAR(3), fare_amount DECIMAL(6,2), extra DECIMAL(6,2), mta_tax DECIMAL(6,2), tip_amount DECIMAL(6,2), tolls_amount DECIMAL(6,2), improvement_surcharge DECIMAL(6,2), total_amount DECIMAL(6,2), congestion_surcharge DECIMAL(6,2)) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LOCATION 's3://projeto-bonus-cap12/';
+
+# Executa no SO
+echo "LOAD DATA INPATH 's3://projeto-bonus-cap12/yellow_tripdata_2020-01.csv' INTO TABLE tb_dados_taxis;" | hive
+
+# Executa no SO
+presto-cli --catalog hive --schema default
+
+# Executa no Presto
+SELECT passenger_count, count(*) FROM tb_dados_taxis GROUP BY passenger_count;
+
+SELECT passenger_count, year(pickup_datetime), count(*) FROM tb_dados_taxis GROUP BY passenger_count, year(pickup_datetime);
+
+SELECT passenger_count, year(pickup_datetime) trip_year, round(trip_distance), count(*) trips FROM tb_dados_taxis GROUP BY passenger_count, year(pickup_datetime), round(trip_distance) ORDER BY trip_year, trips desc;
