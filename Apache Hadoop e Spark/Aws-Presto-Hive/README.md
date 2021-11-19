@@ -1,7 +1,8 @@
 
+# Processando e Analisando Bilhões de Registros com Presto, Hive, AWS EMR (Elastic Map Reduce)  
+
 ![image](https://user-images.githubusercontent.com/87387315/142626396-106c4eb2-6c6d-4b03-8a52-c61bb8664892.png)
 
-# Processando e Analisando Bilhões de Registros com Presto, Hive, AWS EMR (Elastic Map Reduce)  
 Este é um projeto de demonstração para que você veja como configurar um cluster multinode e processar grandes volumes de dados. Usaremos o cluster Hadoop com Amazon EMR – Elastic MapReduce e os serviços de motor de banco de dados Presto e Hive para análise dos dados.
 
 **Tudo será demonstrado passo a passo e o ambiente configurado tem custo na AWS. **
@@ -37,12 +38,19 @@ mkdir Keys
 ![image](https://user-images.githubusercontent.com/87387315/142626570-0308f1b3-ba47-439a-be84-db1cf8dea844.png)
 
 •	No início da tela clica em opções avançadas: Nessa tela você pode customizar um pouco mais seu cluster, você pode escolher diferentes opções, fique sempre observando as versões.
+
 •	Clica em criar Cluster vai demorar entre 5 e 10 minutos aproximadamente.
+
 •	Revisando as configurações do cluster. Se o volumem de dados é muito grande pode que justifique a implementação local e não em nuvem.
+
 •	Uma vez terminado o projeto não esqueça de “Encerrar” o cluster para não ser cobrado.
+
 •	Ele mostra o DNS publico para poder acessar remotamente. E muito importante lembrar a chave que foi usada.
+
 •	Se quer ver as máquinas rodando vai para Aws botão direito e abra uma nova aba clica EC2, vai ver as 3 instancias em execução.
+
 •	Voltamos para EMR, e vamos conectar no cluster: Connect to the Master Node using SSH. Para ver o tipo de conexão em Linux ou Windows.
+
 •	Acesso remoto ao cluster: Copia esse comando e depois vai para o terminal o primer passo é acessar a pasta onde está a chave em meu caso está no diretório keys
 
 ![image](https://user-images.githubusercontent.com/87387315/142626658-9ad10e12-cae0-40f8-a65d-279cf5329e0c.png)
@@ -60,9 +68,11 @@ ssh -i ~/aws-dsa.pem hadoop@ec2-18.....
  ![image](https://user-images.githubusercontent.com/87387315/142626770-38907f37-b03a-44af-938f-6a65cb81ac2e.png)
 
 •	Em caso você tenha ainda problema para conectar no cluster. Vai para o EC2, vai aonde estão as três instancias e procura pela coluna grupo de segurança. Vê no menu esquerdo em Rede de Segurança e vai em security groups.
+
 ## Ajustando Permissões de acesso. 
 No terminal digita screen para ver o símbolo emr
-### Ajusta o privilégio de acesso
+
+1. Ajusta o privilégio de acesso
 ```sh
 sudo su -c 'mkdir -p /var/log/hive/user/hadoop && chown -R hadoop /var/log/hive/user/hadoop'
 ```
@@ -70,24 +80,24 @@ sudo su -c 'mkdir -p /var/log/hive/user/hadoop && chown -R hadoop /var/log/hive/
 ```sh
 hive
 ```
-### Cria tabela externa para o arquivo CSV no Hive.
+1. Cria tabela externa para o arquivo CSV no Hive.
  Com o bucket criado anteriormente substitui por projeto-bonus-cap12
  ```sh
 CREATE EXTERNAL TABLE tb_dados_taxis (vendor_id VARCHAR(3), pickup_datetime TIMESTAMP, dropoff_datetime TIMESTAMP, passenger_count SMALLINT, trip_distance DECIMAL(6,3), rate_code_id SMALLINT, store_and_fwd_flag VARCHAR(1), PULocationID SMALLINT, DOLocationID SMALLINT, payment_type VARCHAR(3), fare_amount DECIMAL(6,2), extra DECIMAL(6,2), mta_tax DECIMAL(6,2), tip_amount DECIMAL(6,2), tolls_amount DECIMAL(6,2), improvement_surcharge DECIMAL(6,2), total_amount DECIMAL(6,2), congestion_surcharge DECIMAL(6,2)) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LOCATION 's3://projeto-bonus-cap12/';
 ```
 
-### Executa no SO (Sistema Operacional)
+## Executa no SO (Sistema Operacional)
 Lembra tem que sair do hive com “quit:”, e voltara para o sistema operacional para executar o comando:
 ```sh
 echo "LOAD DATA INPATH 's3://projeto-bonus-cap12/yellow_tripdata_2020-01.csv' INTO TABLE tb_dados_taxis;" | hive
 ```
 
-### Executa no SO. Execução do Presto
+## Executa no SO. Execução do Presto
 ```sh
 presto-cli --catalog hive --schema default
 ```
 
-## Executa no Presto Sql, 
+### Executa no Presto Sql, 
 Ele é um motor de execução SQL que roda sobre produtos de sistema SQL, em caso de não executar Presto pode ser usado HQL
 
 ```sh
@@ -96,6 +106,6 @@ SELECT passenger_count, year(pickup_datetime), count(*) FROM tb_dados_taxis GROU
 
 SELECT passenger_count, year(pickup_datetime) trip_year, round(trip_distance), count(*) trips FROM tb_dados_taxis GROUP BY passenger_count, year(pickup_datetime), round(trip_distance) ORDER BY trip_year, trips desc;
 ```
-### Desligar o Cluster
+## Desligar o Cluster
 
 Vai em EMR no Cluster (lista do lado esquerdo da tela), clica em  Encerrar, e não esqueça de remover os arquivos do bucket.
