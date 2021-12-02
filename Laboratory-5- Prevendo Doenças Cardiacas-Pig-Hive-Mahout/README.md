@@ -2,15 +2,21 @@
 Um grande hospital ou uma rede de serviços de saúde pode ser capaz de coletar grandes quantidades de dados sobre seus pacientes e um cluster Hadoop pode ser a solução ideal para armazenar e processar esse “Big Data da Saúde”. Nossa solução, portanto, vai utilizar um cluster Hadoop e as ferramentas:
 
 **Hive –** como os dados estão em formato estruturado, usaremos o Hive para armazenar os dados no HDFS e realizar consultas interativas através da linguagem HQL.
+
 **Pig –** será usado para transformação e pré-processamento nos dados.
+
 **Mahout –** será usado para construção do modelo preditivo.
 
 A solução contempla 5 etapas:
 
 • Etapa 1 - Carregando o dataset no Hive e visualizando os dados com SQL
+
 • Etapa 2 - Análise Exploratória e Pré-processamento nos dados com Pig
+
 • Etapa 3 - Transformação de Dados com o Pig
+
 • Etapa 4 - Criação do Modelo Preditivo de Classificação
+
 • Etapa 5 - Otimização do Modelo Preditivo de Classificação
 
 ## Processo:
